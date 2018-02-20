@@ -1,0 +1,30 @@
+.stackedBar {
+  width: 100%;
+  height: 38px;
+  background: #eee;
+  color:#414042;
+  margin: 30px;
+}
+
+.bar {
+  display: inline-block;
+  height: 100%;
+  box-sizing: border-box;
+  float: left;
+  color:rgb(255, 255, 255) ;
+  font-weight: bold;
+  text-align: center;
+  padding-top: 10px;
+}
+
+.red {
+  background: rgb(193, 35, 7);
+}
+
+.yellow {
+  background: rgb(245, 194, 16);
+}
+
+.green {
+  background: rgb(31, 129, 11);
+}

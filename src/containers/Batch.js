@@ -7,6 +7,8 @@ import { fetchOneBatch, fetchStudents } from '../actions/batches/fetch'
 import { connect as subscribeToWebsocket } from '../actions/websocket'
 //import TurnButton from '../components/batches/TurnButton'
 import Paper from 'material-ui/Paper'
+import StackedBar from '../components/batches/StackedBar'
+import './Batch.css'
 
 const studentShape = PropTypes.shape({
   //userId: PropTypes.string.isRequired,
@@ -43,41 +45,41 @@ class Batch extends PureComponent {
       //this.props.fetchPlayers(batch)
     }
   }
-  
+
   goToStudent = studentId => event => this.props.push(`/${this.props.batch._id}/showStudent/${studentId}`)
 
   // doTurnWithBatchId = (weapon) => () => {
   //   return this.props.doTurn(weapon, this.props.batch._id)
   // }
-  
+
   showColor = (color) => {
     if (!color) {
       return 'R'
     }
     return color
   }
-  
+
   renderStudent = (student, index) => {
-    console.log(student._id)
     return (
-      <Paper 
-        key={index} 
-        className="buttonStyle"      onClick={this.goToStudent(student._id)}>
-          <p>{ student.picture }</p>
-          <p>Name: { student.name }</p>
-          <p>Currently: { this.showColor(student.days[student.days.length-1].color) }</p>
-      </Paper>
+      <Paper
+        key={index}
+        className="buttonStyle" onClick={this.goToStudent(student._id)}>
+          <p className="studentPicture">{ student.picture }</p>
+          <p className="studentName">Name: { student.name }</p>
+          <p className="studentColor">Currently: <span className="colors" id={ this.showColor(student.days[student.days.length-1].color) }></span></p>
+        </Paper>
     )
-  }
+
+    }
 
   render() {
     const { batch } = this.props
     if (!batch) return null
-     
+
     return (
       <div style={{ display: 'flex', flexFlow: 'column wrap', alignItems: 'center' }} className="Batch">
         <h1>Students of batch { batch.batchNr }</h1>
-
+        <StackedBar students={ batch.students }/>
         <div style={{ display: 'flex', alignItems: 'center', flexFlow: 'row wrap' }}>
         {this.props.batch.students.sort((a, b) => {
           return a.name - b.name
