@@ -44,7 +44,7 @@ class Batch extends PureComponent {
     }
   }
   
-  goToStudent = studentId => event => this.props.push(`/showStudent/${studentId}`)
+  goToStudent = studentId => event => this.props.push(`/${this.props.batch._id}/showStudent/${studentId}`)
 
   // doTurnWithBatchId = (weapon) => () => {
   //   return this.props.doTurn(weapon, this.props.batch._id)

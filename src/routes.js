@@ -16,7 +16,7 @@ export default class Routes extends Component {
       <div>
         <Route exact path="/" component={BatchContainer} />
         <Route path="/showBatch/:batchId" component={Batch} />
-        <Route path="/showStudent/:studentId" component={Student} />
+        <Route path="/:batchId/showStudent/:studentId" component={Student} />
         <Route path="/sign-in" component={SignIn} />
         <Route path="/sign-up" component={SignUp} />
       </div>
