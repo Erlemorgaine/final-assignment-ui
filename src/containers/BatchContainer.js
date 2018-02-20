@@ -32,14 +32,14 @@ class BatchContainer extends PureComponent {
   render() {
     return (
       <div className="BatchContainer">
-        <h1>Welcome { this.props.currentUser.name }! </h1>
+        <h1>Welcome { /*this.props.currentUser.name*/ }! </h1>
         <div style={{ display: 'flex', alignItems: 'center', flexFlow: 'row wrap' }}>
           {this.props.batches.sort((a, b) => {
             return a.batchNr - b.batchNr
           }).map(this.renderBatch)}
         </div>
         <br/>
-        <CreateBatchForm />
+        <CreateBatchForm batchNr={this.props.batches.length} />
       </div>
     )
   }
