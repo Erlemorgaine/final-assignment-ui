@@ -11,6 +11,7 @@ import { BATCH_PLAYERS_UPDATED } from './subscribe'
 
 export const FETCHED_BATCHES = 'FETCHED_BATCHES'
 export const FETCHED_ONE_BATCH = 'FETCHED_ONE_BATCH'
+export const FETCHED_ONE_STUDENT = 'FETCHED_ONE_STUDENT'
 
 const api = new API()
 
@@ -38,7 +39,7 @@ export default () => {
   }
 }
 
-export const fetchPlayers = (batch) => {
+export const fetchStudents = (batch) => {
   return dispatch => {
     dispatch({ type: APP_LOADING })
 
@@ -76,6 +77,30 @@ export const fetchOneBatch = (batchId) => {
 
         dispatch({
           type: FETCHED_ONE_BATCH,
+          payload: result.body
+        })
+      })
+      .catch((error) => {
+        dispatch({ type: APP_DONE_LOADING })
+        dispatch({
+          type: LOAD_ERROR,
+          payload: error.message
+        })
+      })
+  }
+}
+
+export const fetchOneStudent = (batchId, studentId) => {
+  return dispatch => {
+    dispatch({ type: APP_LOADING })
+
+    api.get(`/batches/${batchId}/students/${studentId}`)
+      .then((result) => {
+        dispatch({ type: APP_DONE_LOADING })
+        dispatch({ type: LOAD_SUCCESS })
+
+        dispatch({
+          type: FETCHED_ONE_STUDENT,
           payload: result.body
         })
       })

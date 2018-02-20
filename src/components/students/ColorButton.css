@@ -1,0 +1,22 @@
+.colorButton {
+  color: white;
+  padding-top: 30px;
+  margin: 12px;
+  max-width: 100px;
+  height: 60px;
+  flex: 1;
+  text-align: center;
+  cursor: pointer
+}
+
+#red {
+  background-color: rgb(193, 35, 7);
+}
+
+#yellow {
+  background-color: rgb(245, 194, 16);
+}
+
+#green {
+  background-color: rgb(31, 129, 11);
+}

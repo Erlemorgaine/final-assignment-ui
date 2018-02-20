@@ -1,11 +1,12 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { fetchOneBatch, fetchPlayers } from '../actions/batches/fetch'
+import { fetchOneBatch, fetchStudents } from '../actions/batches/fetch'
 import { connect as subscribeToWebsocket } from '../actions/websocket'
+import EvaluationForm from '../components/students/EvaluationForm'
 
 const studentShape = PropTypes.shape({
-  userId: PropTypes.string.isRequired,
+  //userId: PropTypes.string.isRequired,
   symbol: PropTypes.string,
   name: PropTypes.string
 })
@@ -13,25 +14,20 @@ const studentShape = PropTypes.shape({
 class Student extends PureComponent {
   static propTypes = {
     fetchOneBatch: PropTypes.func.isRequired,
-    fetchPlayers: PropTypes.func.isRequired,
+    fetchStudents: PropTypes.func.isRequired,
     subscribeToWebsocket: PropTypes.func.isRequired,
     batch: PropTypes.shape({
       _id: PropTypes.string.isRequired,
-      userId: PropTypes.string.isRequired,
-      winnerId: PropTypes.string,
+      //userId: PropTypes.string.isRequired,
       students: PropTypes.arrayOf(studentShape).isRequired,
-      draw: PropTypes.bool,
-      updatedAt: PropTypes.string.isRequired,
-      createdAt: PropTypes.string.isRequired,
     }),
     currentStudent: studentShape,
-    isPlayer: PropTypes.bool,
-    isJoinable: PropTypes.bool,
   }
 
   componentWillMount() {
     const { batch, fetchOneBatch, subscribeToWebsocket } = this.props
-    const { batchId } = this.props.match.params
+    const batchId = this.props.match.params.batchId
+    const studentId = this.props.match.params.studentId
 
     if (!batch) { fetchOneBatch(batchId) }
     subscribeToWebsocket()
@@ -41,7 +37,7 @@ class Student extends PureComponent {
     const { batch } = nextProps
 
     if (batch) {
-      this.props.fetchPlayers(batch)
+      this.props.fetchStudents(batch)
     }
   }
 
@@ -50,8 +46,13 @@ class Student extends PureComponent {
 
     if (!batch) return null
 
+    let student = batch.students.filter((s) => s._id === this.props.match.params.studentId)[0]
+
     return (
-      <div>Hello</div>
+      <div>
+        <h2>{ student.name }</h2>
+        <EvaluationForm />
+      </div>
     )
   }
 }
@@ -66,5 +67,5 @@ const mapStateToProps = ({ currentUser, batches }, { match }) => {
 export default connect(mapStateToProps, {
   subscribeToWebsocket,
   fetchOneBatch,
-  fetchPlayers,
+  fetchStudents,
 })(Student)
