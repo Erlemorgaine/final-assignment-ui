@@ -13,8 +13,9 @@ class CreateBatchForm extends PureComponent {
   
   saveBatch = () => {
     let newBatch = {
+      batchNr: this.props.batchNr + 1,
       startDate: this.refs.startDate.value,
-      endDate: this.refs.endDate.value
+      endDate: this.refs.endDate.value,
     }
     
     this.props.createBatch(newBatch)
