@@ -31,16 +31,15 @@ class EvaluationForm extends PureComponent {
           </div>
           <span>
             <p>Remarks:</p>
-            <textarea
+            <textarea style={{ marginBottom: '30px' }}
               name="textarea"
-              id=""
               cols="30"
               rows="10"
               ref="remarks">
             </textarea>
           </span>
           <span>
-            <p>Evaluation date:</p>
+            <div>Evaluation date:</div>
             <input
               type="date"
               ref="date"/>

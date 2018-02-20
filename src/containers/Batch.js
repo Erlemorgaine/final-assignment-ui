@@ -8,6 +8,7 @@ import { connect as subscribeToWebsocket } from '../actions/websocket'
 //import TurnButton from '../components/batches/TurnButton'
 import Paper from 'material-ui/Paper'
 import StackedBar from '../components/batches/StackedBar'
+import AddStudentForm from '../components/students/AddStudentForm'
 import './Batch.css'
 
 const studentShape = PropTypes.shape({
@@ -77,14 +78,17 @@ class Batch extends PureComponent {
     if (!batch) return null
 
     return (
-      <div style={{ display: 'flex', flexFlow: 'column wrap', alignItems: 'center' }} className="Batch">
-        <h1>Students of batch { batch.batchNr }</h1>
-        <StackedBar students={ batch.students }/>
-        <div style={{ display: 'flex', alignItems: 'center', flexFlow: 'row wrap' }}>
-        {this.props.batch.students.sort((a, b) => {
-          return a.name - b.name
-        }).map(this.renderStudent)}
+      <div>
+        <div style={{ display: 'flex', flexFlow: 'column wrap', alignItems: 'center' }} className="Batch">
+          <h1>Students of batch { batch.batchNr }</h1>
+          <StackedBar students={ batch.students }/>
+          <div style={{ display: 'flex', alignItems: 'center', flexFlow: 'row wrap' }}>
+          {this.props.batch.students.sort((a, b) => {
+            return a.name - b.name
+          }).map(this.renderStudent)}
+          </div>
         </div>
+        <AddStudentForm />
       </div>
     )
   }
