@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
-import { fetchOneBatch, fetchPlayers } from '../actions/batches/fetch'
+import { fetchOneBatch, fetchStudents } from '../actions/batches/fetch'
 //import doTurn from '../actions/batches/doTurn'
 import { connect as subscribeToWebsocket } from '../actions/websocket'
 //import TurnButton from '../components/batches/TurnButton'
@@ -17,7 +17,7 @@ const studentShape = PropTypes.shape({
 class Batch extends PureComponent {
   static propTypes = {
     fetchOneBatch: PropTypes.func.isRequired,
-    fetchPlayers: PropTypes.func.isRequired,
+    //fetchPlayers: PropTypes.func.isRequired,
     subscribeToWebsocket: PropTypes.func.isRequired,
     batch: PropTypes.shape({
       _id: PropTypes.string.isRequired,
@@ -40,7 +40,7 @@ class Batch extends PureComponent {
     const { batch } = nextProps
 
     if (batch) {
-      this.props.fetchPlayers(batch)
+      //this.props.fetchPlayers(batch)
     }
   }
   
@@ -50,6 +50,13 @@ class Batch extends PureComponent {
   //   return this.props.doTurn(weapon, this.props.batch._id)
   // }
   
+  showColor = (color) => {
+    if (!color) {
+      return 'R'
+    }
+    return color
+  }
+  
   renderStudent = (student, index) => {
     console.log(student._id)
     return (
@@ -57,8 +64,8 @@ class Batch extends PureComponent {
         key={index} 
         className="buttonStyle"      onClick={this.goToStudent(student._id)}>
           <p>{ student.picture }</p>
-          <p>Name:{ student.name }</p>
-          <p>Currently: { student.days[student.days.length-1].color }</p>
+          <p>Name: { student.name }</p>
+          <p>Currently: { this.showColor(student.days[student.days.length-1].color) }</p>
       </Paper>
     )
   }
@@ -83,7 +90,6 @@ class Batch extends PureComponent {
 
 const mapStateToProps = ({ currentUser, batches }, { match }) => {
   const batch = batches.filter((b) => (b._id === match.params.batchId))[0]
-  
   return {
     batch,
   }
@@ -92,7 +98,7 @@ const mapStateToProps = ({ currentUser, batches }, { match }) => {
 export default connect(mapStateToProps, {
   subscribeToWebsocket,
   fetchOneBatch,
-  fetchPlayers,
+  fetchStudents,
   push,
   //doTurn
 })(Batch)

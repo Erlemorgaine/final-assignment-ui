@@ -5,10 +5,9 @@ import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import signOut from '../../actions/user/sign-out'
 import AppBar from 'material-ui/AppBar'
-import IconButton from 'material-ui/IconButton'
 import FlatButton from 'material-ui/FlatButton'
 
-const TITLE = 'Rock - Paper - Scissors'
+const TITLE = 'Student Evaluations'
 
 class Navigation extends PureComponent {
   static propTypes = {

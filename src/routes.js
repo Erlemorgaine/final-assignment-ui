@@ -13,7 +13,7 @@ import {
 export default class Routes extends Component {
   render() {
     return (
-      <div>
+      <div className="wrapper">
         <Route exact path="/" component={BatchContainer} />
         <Route path="/showBatch/:batchId" component={Batch} />
         <Route path="/:batchId/showStudent/:studentId" component={Student} />
