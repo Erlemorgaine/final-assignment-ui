@@ -67,12 +67,12 @@ class Batch extends PureComponent {
   }
 
   renderStudent = (student, index) => {
-    let lastDay = student.days[student.days.length-1]
+    let lastEvaluation = student.evaluations[student.evaluations.length-1]
     let studentColor = 'red'
-    let studentId = student._id.toString()
+    //let studentId = student._id.toString()
 
-    if (lastDay) {
-      studentColor = lastDay.color
+    if (lastEvaluation) {
+      studentColor = lastEvaluation.color
     }
 
     return (

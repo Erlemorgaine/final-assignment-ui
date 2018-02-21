@@ -3,31 +3,41 @@ import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import ColorButton from './ColorButton'
+import createEvaluation from '../../actions/students/createEvaluation'
 
 let colorEvaluation = ""
 
 class EvaluationForm extends PureComponent {
-
-  createEvaluation = () => {
-
-    // let newEvaluation = {
-    //   date: this.refs.date.value,
-    //   remarks: this.refs.remarks.value,
-    // }
-  }
 
   pickColor = (color) => {
     colorEvaluation = color
     return colorEvaluation
   }
 
-  goToNextStudent = studentId => event => {
-    console.log('click')
-    this.props.push(`/${this.props.batch._id}/showStudent/${studentId}`)
+  goToNextStudent = (studentId) => event => {
+    event.preventDefault()
+    let newEvaluation = {
+      date: this.refs.date.value,
+      remarks: this.refs.remarks.value,
+    }
+
+    newEvaluation = [newEvaluation, this.props.student._id]
+
+    this.props.createEvaluation(this.props.batch._id, newEvaluation)
+    //this.props.push(`/${this.props.batch._id}/showStudent/${studentId}`)
   }
 
   goToBatch = () => event => {
-    this.props.push(`/showBatch/${this.props.batch._id}/`)
+    event.preventDefault()
+    let newEvaluation = {
+      date: this.refs.date.value,
+      remarks: this.refs.remarks.value,
+      color: colorEvaluation
+    }
+     newEvaluation = [newEvaluation, this.props.student._id]
+
+    this.props.createEvaluation(this.props.batch._id, newEvaluation)
+    //this.props.push(`/showBatch/${this.props.batch._id}/`)
   }
 
   render() {
@@ -40,11 +50,12 @@ class EvaluationForm extends PureComponent {
 
     return (
       <form>
+        <h3>Make a new evaluation!</h3>
         <div>
           <div style={{ display: 'flex', alignItems: 'center', flexFlow: 'row wrap' }}>
-            <ColorButton color="Red" onClick={this.pickColor}/>
-            <ColorButton color="Yellow" onClick={this.pickColor}/>
-            <ColorButton color="Green" onClick={this.pickColor}/>
+            <ColorButton color="Red" onClick={() => this.pickColor('red')}/>
+            <ColorButton color="Yellow" onClick={() => this.pickColor('yellow')}/>
+            <ColorButton color="Green" onClick={() => this.pickColor('green')}/>
             <br/>
           </div>
           <span>
@@ -77,4 +88,4 @@ class EvaluationForm extends PureComponent {
   }
 }
 
-export default connect(null, { push })(EvaluationForm)
+export default connect(null, { createEvaluation, push })(EvaluationForm)

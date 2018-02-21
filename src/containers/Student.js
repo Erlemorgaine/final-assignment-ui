@@ -41,6 +41,17 @@ class Student extends PureComponent {
     }
   }
 
+  renderEvaluations(evaluation, index) {
+    return(
+      <span
+        key={index}
+        className={evaluation.color}
+        onClick={console.log('click')}>
+          {evaluation.date}
+      </span>
+    )
+  }
+
   render() {
     const { batch } = this.props
 
@@ -51,6 +62,10 @@ class Student extends PureComponent {
     return (
       <div>
         <h2>{ student.name }</h2>
+        <div>
+          <p>Current evaluations:</p>
+          { student.evaluations.map(this.renderEvaluations) }
+        </div>
         <EvaluationForm student={student} batch={ batch }/>
       </div>
     )
