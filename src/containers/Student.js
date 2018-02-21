@@ -51,7 +51,7 @@ class Student extends PureComponent {
     return (
       <div>
         <h2>{ student.name }</h2>
-        <EvaluationForm batch={ batch }/>
+        <EvaluationForm student={student} batch={ batch }/>
       </div>
     )
   }

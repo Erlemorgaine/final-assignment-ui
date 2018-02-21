@@ -31,6 +31,12 @@ class EvaluationForm extends PureComponent {
   }
 
   render() {
+    const students = this.props.batch.students
+    let studentIndex = students.indexOf(this.props.student)
+    let nextStudent = students[0]
+    if (studentIndex < (students.length-1)) {
+      nextStudent = students[studentIndex + 1]
+    }
 
     return (
       <form>
@@ -63,7 +69,7 @@ class EvaluationForm extends PureComponent {
             value="Save"/>
           <input
             type="submit"
-            onClick={this.goToNextStudent()}
+            onClick={this.goToNextStudent(nextStudent._id)}
             value="Save and move to next student"/>
         </div>
       </form>
