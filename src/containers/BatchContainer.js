@@ -18,12 +18,14 @@ class BatchContainer extends PureComponent {
   goToBatch = batchId => event => this.props.push(`/showBatch/${batchId}`)
 
   renderBatch = (batch, index) => {
+    let startDate = new Date(batch.startDate)
+    let endDate = new Date(batch.startDate)
 
     return (
       <Paper key={index} className="buttonStyle" onClick={this.goToBatch(batch._id)}>
         <p>Batch #{ batch.batchNr }</p>
-        <p>Starts at: { batch.startDate }</p>
-        <p>Ends at: { batch.endDate }</p>
+        <p>Starts at: { startDate.getDate() }-{ startDate.getMonth() }-{ startDate.getFullYear() }</p>
+        <p>Ends at: { endDate.getDate() }-{ endDate.getMonth() }-{ endDate.getFullYear() }</p>
         <p>{ batch.students.length } students</p>
       </Paper>
     )
