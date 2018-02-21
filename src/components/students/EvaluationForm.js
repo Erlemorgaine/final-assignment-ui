@@ -1,5 +1,7 @@
 import React, { PureComponent } from 'react'
-import PropTypes from 'prop-types'
+//import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { push } from 'react-router-redux'
 import ColorButton from './ColorButton'
 
 let colorEvaluation = ""
@@ -8,17 +10,33 @@ class EvaluationForm extends PureComponent {
 
   createEvaluation = () => {
 
-    let newEvaluation = {
-      date: this.refs.date.value,
-      remarks: this.refs.remarks.value,
-    }
+    // let newEvaluation = {
+    //   date: this.refs.date.value,
+    //   remarks: this.refs.remarks.value,
+    // }
   }
 
   pickColor = (color) => {
     colorEvaluation = color
+    return colorEvaluation
+  }
+
+  goToNextStudent = studentId => event => {
+    console.log('click')
+    this.props.push(`/${this.props.batch._id}/showStudent/${studentId}`)
+  }
+
+  goToBatch = () => event => {
+    this.props.push(`/showBatch/${this.props.batch._id}/`)
   }
 
   render() {
+    const students = this.props.batch.students
+    let studentIndex = students.indexOf(this.props.student)
+    let nextStudent = students[0]
+    if (studentIndex < (students.length-1)) {
+      nextStudent = students[studentIndex + 1]
+    }
 
     return (
       <form>
@@ -31,26 +49,32 @@ class EvaluationForm extends PureComponent {
           </div>
           <span>
             <p>Remarks:</p>
-            <textarea
+            <textarea style={{ marginBottom: '30px' }}
               name="textarea"
-              id=""
               cols="30"
               rows="10"
               ref="remarks">
             </textarea>
           </span>
           <span>
-            <p>Evaluation date:</p>
+            <div>Evaluation date:</div>
             <input
               type="date"
               ref="date"/>
           </span>
           <br/>
-          <input type="submit" value="Submit"/>
+          <input
+            type="submit"
+            onClick={this.goToBatch()}
+            value="Save"/>
+          <input
+            type="submit"
+            onClick={this.goToNextStudent(nextStudent._id)}
+            value="Save and move to next student"/>
         </div>
       </form>
     )
   }
 }
 
-export default EvaluationForm
+export default connect(null, { push })(EvaluationForm)

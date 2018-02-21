@@ -27,7 +27,7 @@ class Student extends PureComponent {
   componentWillMount() {
     const { batch, fetchOneBatch, subscribeToWebsocket } = this.props
     const batchId = this.props.match.params.batchId
-    const studentId = this.props.match.params.studentId
+    //const studentId = this.props.match.params.studentId
 
     if (!batch) { fetchOneBatch(batchId) }
     subscribeToWebsocket()
@@ -51,7 +51,7 @@ class Student extends PureComponent {
     return (
       <div>
         <h2>{ student.name }</h2>
-        <EvaluationForm />
+        <EvaluationForm student={student} batch={ batch }/>
       </div>
     )
   }
