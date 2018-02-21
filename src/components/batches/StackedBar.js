@@ -21,7 +21,7 @@ class StackedBar extends PureComponent {
     if (!colorPercentage) {
       return 0
     }
-    return colorPercentage
+    return Math.round(colorPercentage)
   }
 
   render() {

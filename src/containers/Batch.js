@@ -8,6 +8,7 @@ import { connect as subscribeToWebsocket } from '../actions/websocket'
 //import TurnButton from '../components/batches/TurnButton'
 import Paper from 'material-ui/Paper'
 import StackedBar from '../components/batches/StackedBar'
+import AskButton from '../components/batches/AskButton'
 import AddStudentForm from '../components/students/AddStudentForm'
 import removeOneStudent from '../actions/students/remove'
 import './Batch.css'
@@ -97,13 +98,15 @@ class Batch extends PureComponent {
         <div style={{ display: 'flex', flexFlow: 'column wrap', alignItems: 'center' }} className="Batch">
           <h1>Students of batch { batch.batchNr }</h1>
           <StackedBar students={ batch.students }/>
+          <AskButton batch={ batch } />
+          <br/>
           <div style={{ display: 'flex', alignItems: 'center', flexFlow: 'row wrap' }}>
-          {this.props.batch.students.sort((a, b) => {
+          {batch.students.sort((a, b) => {
             return a.name - b.name
           }).map(this.renderStudent)}
           </div>
         </div>
-        <AddStudentForm batchId={batch._id}/>
+        <AddStudentForm batchId={ batch._id }/>
       </div>
     )
   }

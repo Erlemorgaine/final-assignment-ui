@@ -8,11 +8,11 @@ import {
 
 const api = new API()
 
-export default (weapon, batchId) => {
+export default (batchId) => {
   return (dispatch) => {
     dispatch({ type: APP_LOADING })
-
-    api.patch(`/batches/${batchId}`, { move: weapon })
+    console.log(batchId)
+    api.patch(`/batches/${batchId}`)
       .then(() => {
         dispatch({ type: APP_DONE_LOADING })
         dispatch({ type: LOAD_SUCCESS })
