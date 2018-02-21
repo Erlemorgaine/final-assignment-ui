@@ -9,6 +9,7 @@ import { connect as subscribeToWebsocket } from '../actions/websocket'
 import Paper from 'material-ui/Paper'
 import StackedBar from '../components/batches/StackedBar'
 import AddStudentForm from '../components/students/AddStudentForm'
+import removeOneStudent from '../actions/students/remove'
 import './Batch.css'
 
 const studentShape = PropTypes.shape({
@@ -60,22 +61,29 @@ class Batch extends PureComponent {
     return color
   }
 
+  removeStudent = (batchId, studentId) => {
+    this.props.removeOneStudent(batchId, studentId)
+  }
+
   renderStudent = (student, index) => {
     let lastDay = student.days[student.days.length-1]
     let studentColor = 'red'
+    let studentId = student._id.toString()
 
     if (lastDay) {
       studentColor = lastDay.color
     }
 
     return (
-      <Paper
-        key={index}
-        className="buttonStyle" onClick={this.goToStudent(student._id)}>
-          <p className="studentPicture">{ student.picture }</p>
-          <p className="studentName">Name: { student.name }</p>
-          <p className="studentColor">Currently: <span className="colors" id={ this.showColor(studentColor) }></span></p>
+      <div key={index}>
+        <Paper
+          className="buttonStyle" onClick={this.goToStudent(student._id)}>
+            <p className="studentPicture">{ student.picture }</p>
+            <p className="studentName">Name: { student.name }</p>
+            <p className="studentColor">Currently: <span className="colors" id={ this.showColor(studentColor) }></span></p>
         </Paper>
+        <button onClick={() => this.removeStudent(this.props.batch._id, student._id)}>Remove student</button>
+      </div>
     )
 
     }
@@ -112,6 +120,7 @@ export default connect(mapStateToProps, {
   subscribeToWebsocket,
   fetchOneBatch,
   fetchStudents,
+  removeOneStudent,
   push,
   //doTurn
 })(Batch)

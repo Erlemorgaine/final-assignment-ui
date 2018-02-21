@@ -104,10 +104,11 @@ export default class ApiClient {
   //    .catch(err => console.log(err))
   //
   // Returns: Promise
-  delete(path) {
+  delete(path, data = {}) {
     return request
       .delete(this.createUrl(path))
       .set(this.headers())
+      .send(data)
   }
 
   headers() {
