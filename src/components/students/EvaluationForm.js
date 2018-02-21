@@ -24,7 +24,7 @@ class EvaluationForm extends PureComponent {
     newEvaluation = [newEvaluation, this.props.student._id]
 
     this.props.createEvaluation(this.props.batch._id, newEvaluation)
-    //this.props.push(`/${this.props.batch._id}/showStudent/${studentId}`)
+    this.props.push(`/${this.props.batch._id}/showStudent/${studentId}`)
   }
 
   goToBatch = () => event => {
@@ -37,7 +37,7 @@ class EvaluationForm extends PureComponent {
      newEvaluation = [newEvaluation, this.props.student._id]
 
     this.props.createEvaluation(this.props.batch._id, newEvaluation)
-    //this.props.push(`/showBatch/${this.props.batch._id}/`)
+    this.props.push(`/showBatch/${this.props.batch._id}/`)
   }
 
   render() {
