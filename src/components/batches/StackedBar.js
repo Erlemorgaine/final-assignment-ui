@@ -8,11 +8,11 @@ class StackedBar extends PureComponent {
 
   calculateColorPercentage(color) {
     let colorGroup = this.props.students.filter((s) => {
-      let lastDay = s.days[s.days.length-1]
+      let lastEvaluation = s.evaluations[s.evaluations.length-1]
       let studentColor = 'red'
 
-      if (lastDay) {
-        studentColor = lastDay.color
+      if (lastEvaluation) {
+        studentColor = lastEvaluation.color
       }
       return studentColor === color
     })

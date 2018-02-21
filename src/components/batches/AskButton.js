@@ -9,8 +9,28 @@ class AskButton extends PureComponent {
     signedIn: PropTypes.bool,
   }
 
+  calculateAskedPercentage(color) {
+    const askedStudents = this.props.batch.askedStudents.filter((s) => {
+      return s.evaluations[s.evaluations.length-1].color === color
+    })
+
+    if (askedStudents.length === 0) {
+      return 0
+    }
+    return Math.round((askedStudents.length / this.props.batch.askedStudents.length) * 100)
+  }
+
   render() {
     const { batch } = this.props
+    let pickedStudent = ''
+
+    if (batch.askedStudents.length > 0) {
+      pickedStudent = batch.askedStudents[batch.askedStudents.length-1].name
+    }
+
+    //console.log(batch.askedStudents.length)
+    //console.log(pickedStudent)
+
     if (!this.props.signedIn) return null
 
     return (
@@ -19,7 +39,14 @@ class AskButton extends PureComponent {
           label="Ask a question to ... :"
           primary={true}
           onClick={() => this.props.askStudent(batch._id)} />
-        <div>{ batch.askedStudents[batch.askedStudents.length-1] }</div>
+        { pickedStudent }
+        <br/>
+        <br/>
+        <div>
+          <div>{this.calculateAskedPercentage('red')}% of red students were asked</div>
+          <div>{this.calculateAskedPercentage('yellow')}% of yellow students were asked</div>
+          <div>{this.calculateAskedPercentage('green')}% of green students were asked</div>
+        </div>
       </div>
     )
   }
