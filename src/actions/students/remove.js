@@ -8,11 +8,11 @@ import {
 
 const api = new API()
 
-export default (weapon, batchId) => {
+export default (batchId, studentId) => {
   return (dispatch) => {
     dispatch({ type: APP_LOADING })
 
-    api.patch(`/batches/${batchId}`, { move: weapon })
+    api.delete(`/batches/${batchId}/students`, { id: studentId })
       .then(() => {
         dispatch({ type: APP_DONE_LOADING })
         dispatch({ type: LOAD_SUCCESS })

@@ -8,11 +8,11 @@ import {
 
 const api = new API()
 
-export default (batch) => {
+export default (batchId, student) => {
   return (dispatch) => {
     dispatch({ type: APP_LOADING })
 
-    api.post('/batches', batch)
+    api.post(`/batches/${batchId}/students`, student)
       .then(() => {
         dispatch({ type: APP_DONE_LOADING })
         dispatch({ type: LOAD_SUCCESS })

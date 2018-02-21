@@ -8,7 +8,9 @@ import { connect as subscribeToWebsocket } from '../actions/websocket'
 //import TurnButton from '../components/batches/TurnButton'
 import Paper from 'material-ui/Paper'
 import StackedBar from '../components/batches/StackedBar'
+import AskButton from '../components/batches/AskButton'
 import AddStudentForm from '../components/students/AddStudentForm'
+import removeOneStudent from '../actions/students/remove'
 import './Batch.css'
 
 const studentShape = PropTypes.shape({
@@ -54,21 +56,35 @@ class Batch extends PureComponent {
   // }
 
   showColor = (color) => {
-    if (!color) {
-      return 'R'
+    if (color ===  false) {
+      return 'red'
     }
     return color
   }
 
+  removeStudent = (batchId, studentId) => {
+    this.props.removeOneStudent(batchId, studentId)
+  }
+
   renderStudent = (student, index) => {
+    let lastDay = student.days[student.days.length-1]
+    let studentColor = 'red'
+    let studentId = student._id.toString()
+
+    if (lastDay) {
+      studentColor = lastDay.color
+    }
+
     return (
-      <Paper
-        key={index}
-        className="buttonStyle" onClick={this.goToStudent(student._id)}>
-          <p className="studentPicture">{ student.picture }</p>
-          <p className="studentName">Name: { student.name }</p>
-          <p className="studentColor">Currently: <span className="colors" id={ this.showColor(student.days[student.days.length-1].color) }></span></p>
+      <div key={index}>
+        <Paper
+          className="buttonStyle" onClick={this.goToStudent(student._id)}>
+            <p className="studentPicture">{ student.picture }</p>
+            <p className="studentName">Name: { student.name }</p>
+            <p className="studentColor">Currently: <span className="colors" id={ this.showColor(studentColor) }></span></p>
         </Paper>
+        <button onClick={() => this.removeStudent(this.props.batch._id, student._id)}>Remove student</button>
+      </div>
     )
 
     }
@@ -82,13 +98,15 @@ class Batch extends PureComponent {
         <div style={{ display: 'flex', flexFlow: 'column wrap', alignItems: 'center' }} className="Batch">
           <h1>Students of batch { batch.batchNr }</h1>
           <StackedBar students={ batch.students }/>
+          <AskButton batch={ batch } />
+          <br/>
           <div style={{ display: 'flex', alignItems: 'center', flexFlow: 'row wrap' }}>
-          {this.props.batch.students.sort((a, b) => {
+          {batch.students.sort((a, b) => {
             return a.name - b.name
           }).map(this.renderStudent)}
           </div>
         </div>
-        <AddStudentForm />
+        <AddStudentForm batchId={ batch._id }/>
       </div>
     )
   }
@@ -105,6 +123,7 @@ export default connect(mapStateToProps, {
   subscribeToWebsocket,
   fetchOneBatch,
   fetchStudents,
+  removeOneStudent,
   push,
   //doTurn
 })(Batch)
