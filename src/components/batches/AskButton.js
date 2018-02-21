@@ -25,7 +25,7 @@ class AskButton extends PureComponent {
     let pickedStudent = ''
 
     if (batch.askedStudents.length > 0) {
-      pickedStudent = batch.askedStudents[batch.askedStudents.length-1].name
+      pickedStudent = batch.askedStudents[batch.askedStudents.length-1]
     }
 
     //console.log(batch.askedStudents.length)
@@ -39,7 +39,11 @@ class AskButton extends PureComponent {
           label="Ask a question to ... :"
           primary={true}
           onClick={() => this.props.askStudent(batch._id)} />
-        { pickedStudent }
+        <div>
+          <br/>
+          <img src={ pickedStudent.picture } style={{ width: 200, height: 200, backgroundSize: 'cover' }}/>
+          <div>{ pickedStudent.name }</div>
+        </div>
         <br/>
         <br/>
         <div>

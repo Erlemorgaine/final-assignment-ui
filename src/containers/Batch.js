@@ -77,9 +77,8 @@ class Batch extends PureComponent {
 
     return (
       <div key={index}>
-        <Paper
-          className="buttonStyle" onClick={this.goToStudent(student._id)}>
-            <p className="studentPicture">{ student.picture }</p>
+        <Paper className="buttonStyle" onClick={this.goToStudent(student._id)}>
+            <div className="studentPicture" style={{ backgroundImage: `url(${student.picture})`, backgroundSize: 'cover', width: '100%', height: 200 }}></div>
             <p className="studentName">Name: { student.name }</p>
             <p className="studentColor">Currently: <span className="colors" id={ this.showColor(studentColor) }></span></p>
         </Paper>
