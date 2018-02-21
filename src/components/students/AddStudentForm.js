@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import RaisedButton from 'material-ui/RaisedButton'
-//import createStudent from '../../actions/batches/create'
+import createStudent from '../../actions/students/create'
 
 class AddStudentForm extends PureComponent {
   static propTypes = {
@@ -11,12 +11,12 @@ class AddStudentForm extends PureComponent {
   }
 
   saveStudent = () => {
-    // let newStudent = {
-    //   name: this.refs.firstName.value + " " + this.refs.lastName.value,
-    //   picture: this.refs.picture.value,
-    // }
+    let newStudent = {
+      name: this.refs.firstName.value + " " + this.refs.lastName.value,
+      picture: this.refs.picture.value,
+    }
 
-    //this.props.createStudent(newStudent)
+    this.props.createStudent(this.props.batchId, newStudent)
   }
 
   render() {
@@ -56,4 +56,6 @@ const mapStateToProps = ({ currentUser }) => ({
   signedIn: !!currentUser && !!currentUser._id,
 })
 
-export default connect(mapStateToProps, { /*createStudent*/ })(AddStudentForm)
+export default connect(mapStateToProps, {
+  createStudent,
+})(AddStudentForm)

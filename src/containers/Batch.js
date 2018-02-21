@@ -54,20 +54,27 @@ class Batch extends PureComponent {
   // }
 
   showColor = (color) => {
-    if (!color) {
-      return 'R'
+    if (color ===  false) {
+      return 'red'
     }
     return color
   }
 
   renderStudent = (student, index) => {
+    let lastDay = student.days[student.days.length-1]
+    let studentColor = 'red'
+
+    if (lastDay) {
+      studentColor = lastDay.color
+    }
+
     return (
       <Paper
         key={index}
         className="buttonStyle" onClick={this.goToStudent(student._id)}>
           <p className="studentPicture">{ student.picture }</p>
           <p className="studentName">Name: { student.name }</p>
-          <p className="studentColor">Currently: <span className="colors" id={ this.showColor(student.days[student.days.length-1].color) }></span></p>
+          <p className="studentColor">Currently: <span className="colors" id={ this.showColor(studentColor) }></span></p>
         </Paper>
     )
 
@@ -88,7 +95,7 @@ class Batch extends PureComponent {
           }).map(this.renderStudent)}
           </div>
         </div>
-        <AddStudentForm />
+        <AddStudentForm batchId={batch._id}/>
       </div>
     )
   }
