@@ -1,5 +1,7 @@
 import React, { PureComponent } from 'react'
-import PropTypes from 'prop-types'
+//import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { push } from 'react-router-redux'
 import ColorButton from './ColorButton'
 
 let colorEvaluation = ""
@@ -8,14 +10,24 @@ class EvaluationForm extends PureComponent {
 
   createEvaluation = () => {
 
-    let newEvaluation = {
-      date: this.refs.date.value,
-      remarks: this.refs.remarks.value,
-    }
+    // let newEvaluation = {
+    //   date: this.refs.date.value,
+    //   remarks: this.refs.remarks.value,
+    // }
   }
 
   pickColor = (color) => {
     colorEvaluation = color
+    return colorEvaluation
+  }
+
+  goToNextStudent = studentId => event => {
+    console.log('click')
+    this.props.push(`/${this.props.batch._id}/showStudent/${studentId}`)
+  }
+
+  goToBatch = () => event => {
+    this.props.push(`/showBatch/${this.props.batch._id}/`)
   }
 
   render() {
@@ -45,11 +57,18 @@ class EvaluationForm extends PureComponent {
               ref="date"/>
           </span>
           <br/>
-          <input type="submit" value="Submit"/>
+          <input
+            type="submit"
+            onClick={this.goToBatch()}
+            value="Save"/>
+          <input
+            type="submit"
+            onClick={this.goToNextStudent()}
+            value="Save and move to next student"/>
         </div>
       </form>
     )
   }
 }
 
-export default EvaluationForm
+export default connect(null, { push })(EvaluationForm)

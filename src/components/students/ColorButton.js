@@ -18,7 +18,9 @@ class ColorButton extends PureComponent {
 
       case 'Green' :
         return 'green'
-        
+
+      default:
+        return 'red'
     }
   }
 

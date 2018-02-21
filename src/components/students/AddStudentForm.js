@@ -11,10 +11,10 @@ class AddStudentForm extends PureComponent {
   }
 
   saveStudent = () => {
-    let newStudent = {
-      name: this.refs.firstName.value + " " + this.refs.lastName.value,
-      picture: this.refs.picture.value,
-    }
+    // let newStudent = {
+    //   name: this.refs.firstName.value + " " + this.refs.lastName.value,
+    //   picture: this.refs.picture.value,
+    // }
 
     //this.props.createStudent(newStudent)
   }
