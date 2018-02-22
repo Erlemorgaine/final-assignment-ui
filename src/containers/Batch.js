@@ -15,7 +15,7 @@ import './Batch.css'
 
 const evaluationShape = PropTypes.shape({
   _id: PropTypes.string.isRequired,
-  date: PropTypes.string.isRequired,
+  date: PropTypes.string,
   color: PropTypes.string.isRequired,
   remarks: PropTypes.string,
 })
@@ -118,6 +118,7 @@ const mapStateToProps = ({ currentUser, batches }, { match }) => {
   const batch = batches.filter((b) => (b._id === match.params.batchId))[0]
   return {
     batch,
+    currentUser
   }
 }
 

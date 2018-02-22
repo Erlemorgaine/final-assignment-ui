@@ -3,14 +3,17 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { fetchOneBatch, fetchStudents } from '../actions/batches/fetch'
 import { connect as subscribeToWebsocket } from '../actions/websocket'
+import { push } from 'react-router-redux'
+import Evaluation from './Evaluation'
 import EvaluationForm from '../components/students/EvaluationForm'
 import EditStudentForm from '../components/students/EditStudentForm'
 
 const evaluationShape = PropTypes.shape({
   _id: PropTypes.string.isRequired,
-  date: PropTypes.string.isRequired,
+  date: PropTypes.string,
   color: PropTypes.string.isRequired,
   remarks: PropTypes.string,
+  userId: PropTypes.string,
 })
 
 const studentShape = PropTypes.shape({
@@ -34,6 +37,16 @@ class Student extends PureComponent {
     })
   }
 
+  constructor() {
+    super();
+
+    this.state = {
+      clicked: ''
+    };
+
+    this.handleClick = this.handleClick.bind(this);
+  }
+
   componentWillMount() {
     const { batch, fetchOneBatch, subscribeToWebsocket } = this.props
     const batchId = this.props.match.params.batchId
@@ -51,7 +64,27 @@ class Student extends PureComponent {
     }
   }
 
-  renderEvaluations(evaluation, index) {
+  pickColor = (color) => {
+    let colorEvaluation = color
+    return colorEvaluation
+  }
+
+  handleClick = (id) => {
+    this.setState({
+      clicked: id
+    });
+  }
+
+  editOwnEvaluations = (evaluation) => {
+    // if (evaluation.userId !== this.props.currentUser._id) {
+    //   return alert('You cannot edit this evaluation')
+    // }
+    ///this.props.push(`/${this.props.batch._id}/showEvaluation/${evaluation._id}`)
+  }
+
+  renderEvaluations = (evaluation, index) => {
+    const student = this.props.batch.students.filter((s) => s._id === this.props.match.params.studentId)[0]
+
     let date = new Date(evaluation.date)
     let day = date.getDate()
     let month = date.getMonth()
@@ -63,13 +96,22 @@ class Student extends PureComponent {
     }
 
     return(
-      <span
-        style={{ padding: 10, width: 80, color: '#ffffff' }}
-        key={index}
-        className={evaluation.color}
-        onClick={console.log('click')}>
-        { renderDate }
-      </span>
+      <div key={index}>
+        <button
+          style={{ padding: 10, width: 80, color: '#ffffff' }}
+          className={evaluation.color}
+          onClick={() => this.handleClick(evaluation._id)}>
+            {renderDate}
+        </button>
+        <br/><br/>
+        <div>
+          { this.state.clicked === evaluation._id ? <Evaluation
+            evaluation={evaluation}
+            userId={this.props.currentUser._id}
+            batchId={this.props.batch._id}
+            studentId={student._id}/> : null }
+        </div>
+      </div>
     )
   }
 
@@ -101,6 +143,7 @@ const mapStateToProps = ({ currentUser, batches }, { match }) => {
   const batch = batches.filter((b) => (b._id === match.params.batchId))[0]
   return {
     batch,
+    currentUser,
   }
 }
 
@@ -108,4 +151,5 @@ export default connect(mapStateToProps, {
   subscribeToWebsocket,
   fetchOneBatch,
   fetchStudents,
+  push
 })(Student)
