@@ -1,15 +1,40 @@
 import React, { PureComponent } from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import fetchBatches, { fetchStudents } from '../actions/batches/fetch'
 import { connect as subscribeToWebsocket } from '../actions/websocket'
 import CreateBatchForm from '../components/batches/CreateBatchForm'
 import Paper from 'material-ui/Paper'
-//import Menu from 'material-ui/Menu'
-//import MenuItem from 'material-ui/MenuItem'
 import './BatchContainer.css'
 
+const evaluationShape = PropTypes.shape({
+  _id: PropTypes.string.isRequired,
+  date: PropTypes.string,
+  color: PropTypes.string.isRequired,
+  remarks: PropTypes.string,
+})
+
+const studentShape = PropTypes.shape({
+  _id: PropTypes.string.isRequired,
+  firstName: PropTypes.string.isRequired,
+  lastName: PropTypes.string.isRequired,
+  picture: PropTypes.string.isRequired,
+  evaluations: PropTypes.arrayOf(evaluationShape).isRequired
+})
+
 class BatchContainer extends PureComponent {
+  static propTypes = {
+    fetchBatches: PropTypes.func.isRequired,
+    subscribeToWebsocket: PropTypes.func.isRequired,
+    batch: PropTypes.shape({
+      _id: PropTypes.string.isRequired,
+      students: PropTypes.arrayOf(studentShape).isRequired,
+      startDate: PropTypes.string.isRequired,
+      endDate: PropTypes.string.isRequired,
+    })
+  }
+
   componentWillMount() {
     this.props.fetchBatches()
     this.props.subscribeToWebsocket()
@@ -34,7 +59,7 @@ class BatchContainer extends PureComponent {
   render() {
     return (
       <div className="BatchContainer">
-        <h1>Welcome { /*this.props.currentUser.name*/ }! </h1>
+        <h1>Welcome! </h1>
         <div style={{ display: 'flex', alignItems: 'center', flexFlow: 'row wrap' }}>
           {this.props.batches.sort((a, b) => {
             return a.batchNr - b.batchNr

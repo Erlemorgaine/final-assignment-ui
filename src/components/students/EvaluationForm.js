@@ -13,30 +13,49 @@ class EvaluationForm extends PureComponent {
     return colorEvaluation
   }
 
-  goToNextStudent = (studentId) => event => {
-    event.preventDefault()
-    let newEvaluation = {
-      date: this.refs.date.value,
-      remarks: this.refs.remarks.value,
-    }
+  saveStudent = (date, remarks, color, student, batch, saveData) => {
+    return new Promise(function(resolve, reject) {
+      if (!date) {
+        return alert('You need to provide a date')
+      }
+      if (!color) {
+        return alert('You need to provide a color')
+      }
+      if ((color === 'red' || color === 'yellow') && !remarks) {
+        return alert('You need to provide a remark')
+      }
+      let newEvaluation = {
+        date: date,
+        remarks: remarks,
+        color: color,
+      }
 
-    newEvaluation = [newEvaluation, this.props.student._id]
-
-    this.props.createEvaluation(this.props.batch._id, newEvaluation)
-    this.props.push(`/${this.props.batch._id}/showStudent/${studentId}`)
+      newEvaluation = [newEvaluation, student._id]
+      if (newEvaluation) {
+        saveData(batch._id, newEvaluation)
+        resolve(batch._id)
+      } else {
+        reject(batch._id)
+      }
+    })
   }
 
-  goToBatch = () => event => {
+  goToNextStudent = (studentId, pushIt) => event => {
     event.preventDefault()
-    let newEvaluation = {
-      date: this.refs.date.value,
-      remarks: this.refs.remarks.value,
-      color: colorEvaluation
-    }
-     newEvaluation = [newEvaluation, this.props.student._id]
+    this.saveStudent(this.refs.date.value, this.refs.remarks.value, colorEvaluation, this.props.student, this.props.batch, this.props.createEvaluation)
+      .then(function(batchId) {
+        console.log('resolved')
+        pushIt(`/${batchId}/showStudent/${studentId}`)
+      })
+  }
 
-    this.props.createEvaluation(this.props.batch._id, newEvaluation)
-    this.props.push(`/showBatch/${this.props.batch._id}/`)
+  goToBatch = (pushIt) => event => {
+    event.preventDefault()
+    this.saveStudent(this.refs.date.value, this.refs.remarks.value, colorEvaluation, this.props.student, this.props.batch, this.props.createEvaluation)
+      .then(function(batchId) {
+        console.log('resolved')
+        pushIt(`/showBatch/${batchId}`)
+      })
   }
 
   render() {
@@ -75,11 +94,11 @@ class EvaluationForm extends PureComponent {
           <br/>
           <input
             type="submit"
-            onClick={this.goToBatch()}
+            onClick={this.goToBatch(this.props.push)}
             value="Save"/>
           <input
             type="submit"
-            onClick={this.goToNextStudent(nextStudent._id)}
+            onClick={this.goToNextStudent(nextStudent._id, this.props.push)}
             value="Save and move to next student"/>
         </div>
       </form>

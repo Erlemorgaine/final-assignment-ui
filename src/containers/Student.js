@@ -27,7 +27,7 @@ const studentShape = PropTypes.shape({
 class Student extends PureComponent {
   static propTypes = {
     fetchOneBatch: PropTypes.func.isRequired,
-    //fetchStudents: PropTypes.func.isRequired,
+    fetchStudents: PropTypes.func.isRequired,
     subscribeToWebsocket: PropTypes.func.isRequired,
     batch: PropTypes.shape({
       _id: PropTypes.string.isRequired,
@@ -50,7 +50,6 @@ class Student extends PureComponent {
   componentWillMount() {
     const { batch, fetchOneBatch, subscribeToWebsocket } = this.props
     const batchId = this.props.match.params.batchId
-    //const studentId = this.props.match.params.studentId
 
     if (!batch) { fetchOneBatch(batchId) }
     subscribeToWebsocket()
@@ -75,11 +74,8 @@ class Student extends PureComponent {
     });
   }
 
-  editOwnEvaluations = (evaluation) => {
-    // if (evaluation.userId !== this.props.currentUser._id) {
-    //   return alert('You cannot edit this evaluation')
-    // }
-    ///this.props.push(`/${this.props.batch._id}/showEvaluation/${evaluation._id}`)
+  backToBatch = () => event => {
+    this.props.push(`/showBatch/${this.props.batch._id}/`)
   }
 
   renderEvaluations = (evaluation, index) => {
@@ -134,6 +130,7 @@ class Student extends PureComponent {
         </div>
         <br/>
         <EvaluationForm student={student} batch={ batch }/>
+        <button onClick={this.backToBatch()}>Back to the batch!</button>
       </div>
     )
   }

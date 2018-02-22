@@ -11,6 +11,16 @@ class AddStudentForm extends PureComponent {
   }
 
   saveStudent = () => {
+    if (!this.refs.firstName.value) {
+      return alert('The student needs a first name')
+    }
+    if (!this.refs.lastName.value) {
+      return alert('The student needs a last name')
+    }
+    if (!this.refs.picture.value) {
+      return alert('The student needs a picture')
+    }
+
     let newStudent = {
       firstName: this.refs.firstName.value,
       lastName: this.refs.lastName.value,

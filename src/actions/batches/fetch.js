@@ -7,7 +7,7 @@ import {
   LOAD_ERROR,
   LOAD_SUCCESS
 } from '../loading'
-import { BATCH_PLAYERS_UPDATED } from './subscribe'
+import { BATCH_STUDENTS_UPDATED, BATCH_STUDENT_UPDATED } from './subscribe'
 
 export const FETCHED_BATCHES = 'FETCHED_BATCHES'
 export const FETCHED_ONE_BATCH = 'FETCHED_ONE_BATCH'
@@ -49,7 +49,7 @@ export const fetchStudents = (batch) => {
         dispatch({ type: LOAD_SUCCESS })
 
         dispatch({
-          type: BATCH_PLAYERS_UPDATED,
+          type: BATCH_STUDENTS_UPDATED,
           payload: {
             batch,
             students: result.body
@@ -93,7 +93,6 @@ export const fetchOneBatch = (batchId) => {
 export const fetchOneStudent = (batchId, studentId) => {
   return dispatch => {
     dispatch({ type: APP_LOADING })
-    console.log("get one student")
 
     api.get(`/batches/${batchId}/students/${studentId}`)
       .then((result) => {
@@ -101,7 +100,7 @@ export const fetchOneStudent = (batchId, studentId) => {
         dispatch({ type: LOAD_SUCCESS })
 
         dispatch({
-          type: FETCHED_ONE_STUDENT,
+          type: BATCH_STUDENT_UPDATED,
           payload: result.body
         })
       })

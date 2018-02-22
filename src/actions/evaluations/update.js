@@ -12,8 +12,6 @@ export default (batchId, updatedEvaluation) => {
   return (dispatch) => {
     dispatch({ type: APP_LOADING })
 
-    console.log(updatedEvaluation)
-    
     api.patch(`/batches/${batchId}/students/evaluations`, updatedEvaluation)
       .then(() => {
         dispatch({ type: APP_DONE_LOADING })
