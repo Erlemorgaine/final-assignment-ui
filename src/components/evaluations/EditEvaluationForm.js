@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { connect as subscribeToWebsocket } from '../../actions/websocket'
-//import updateStudent from '../../actions/students/update'
+import updateEvaluation from '../../actions/evaluations/update'
 
 class EditEvaluationForm extends PureComponent {
   static propTypes = {
@@ -11,15 +11,14 @@ class EditEvaluationForm extends PureComponent {
 
   saveEvaluation = () => event => {
     event.preventDefault()
-    console.log('clickthis')
+
     let updatedEvaluation = {
       remarks: this.refs.remarks.value,
       color: this.refs.color.value,
     }
 
-    console.log(updatedEvaluation)
     updatedEvaluation = [this.props.studentId, this.props.evaluation._id, updatedEvaluation]
-    //this.props.updateEvaluation(this.props.batchId, updatedEvaluation)
+    this.props.updateEvaluation(this.props.batchId, updatedEvaluation)
   }
 
   render() {
@@ -45,5 +44,5 @@ const mapStateToProps = ({ currentUser }) => ({
 })
 
 export default connect(mapStateToProps, {
-  //updateStudent,
+  updateEvaluation,
 })(EditEvaluationForm)

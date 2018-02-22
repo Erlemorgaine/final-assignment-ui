@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import ColorButton from './ColorButton'
-import createEvaluation from '../../actions/students/createEvaluation'
+import createEvaluation from '../../actions/evaluations/create'
 
 let colorEvaluation = ""
 

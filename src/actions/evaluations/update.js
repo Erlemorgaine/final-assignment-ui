@@ -8,11 +8,13 @@ import {
 
 const api = new API()
 
-export default (batchId, updatedStudent) => {
+export default (batchId, updatedEvaluation) => {
   return (dispatch) => {
     dispatch({ type: APP_LOADING })
 
-    api.patch(`/batches/${batchId}/students`, updatedStudent)
+    console.log(updatedEvaluation)
+    
+    api.patch(`/batches/${batchId}/students/evaluations`, updatedEvaluation)
       .then(() => {
         dispatch({ type: APP_DONE_LOADING })
         dispatch({ type: LOAD_SUCCESS })
