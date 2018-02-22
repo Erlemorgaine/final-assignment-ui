@@ -1,51 +1,54 @@
-// src/components/batches/CreateBatchButton.js
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import RaisedButton from 'material-ui/RaisedButton'
-import createStudent from '../../actions/students/create'
+import updateStudent from '../../actions/students/update'
 
-class AddStudentForm extends PureComponent {
+class EditStudentForm extends PureComponent {
   static propTypes = {
     signedIn: PropTypes.bool,
   }
 
   saveStudent = () => {
-    let newStudent = {
+    let updatedStudent = {
       firstName: this.refs.firstName.value,
       lastName: this.refs.lastName.value,
       picture: this.refs.picture.value,
     }
 
-    this.props.createStudent(this.props.batchId, newStudent)
+    updatedStudent = [this.props.student._id, updatedStudent]
+    this.props.updateStudent(this.props.batchId, updatedStudent)
   }
 
   render() {
     if (!this.props.signedIn) return null
 
     return (
-      <div className="AddStudentForm">
-        <h3>Add new student</h3>
+      <div className="EditStudentForm">
+        <h3>Edit this student</h3>
         <div>
           First name:
           <input
             type="text"
-            ref="firstName"/>
+            ref="firstName"
+            placeholder={this.props.student.firstName}/>
         </div>
         Last name:
         <div>
           <input
             type="text"
-            ref="lastName"/>
+            ref="lastName"
+            placeholder={this.props.student.lastName}/>
         </div>
         <div>
           Picture url:
           <input
             type="text"
-            ref="picture"/>
+            ref="picture"
+            placeholder={this.props.student.picture}/>
         </div>
         <RaisedButton
-          label="Add student to class"
+          label="Save"
           primary={true}
           onClick={this.saveStudent} />
       </div>
@@ -58,5 +61,5 @@ const mapStateToProps = ({ currentUser }) => ({
 })
 
 export default connect(mapStateToProps, {
-  createStudent,
-})(AddStudentForm)
+  updateStudent,
+})(EditStudentForm)

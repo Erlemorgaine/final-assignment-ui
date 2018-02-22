@@ -22,7 +22,8 @@ const evaluationShape = PropTypes.shape({
 
 const studentShape = PropTypes.shape({
   _id: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
+  firstName: PropTypes.string.isRequired,
+  lastName: PropTypes.string.isRequired,
   picture: PropTypes.string.isRequired,
   evaluations: PropTypes.arrayOf(evaluationShape).isRequired
 })
@@ -30,7 +31,7 @@ const studentShape = PropTypes.shape({
 class Batch extends PureComponent {
   static propTypes = {
     fetchOneBatch: PropTypes.func.isRequired,
-    //fetchPlayers: PropTypes.func.isRequired,
+    //fetchStudents: PropTypes.func.isRequired,
     subscribeToWebsocket: PropTypes.func.isRequired,
     batch: PropTypes.shape({
       _id: PropTypes.string.isRequired,
@@ -52,15 +53,11 @@ class Batch extends PureComponent {
     const { batch } = nextProps
 
     if (batch) {
-      //this.props.fetchPlayers(batch)
+      //this.props.fetchStudents(batch)
     }
   }
 
   goToStudent = studentId => event => this.props.push(`/${this.props.batch._id}/showStudent/${studentId}`)
-
-  // doTurnWithBatchId = (weapon) => () => {
-  //   return this.props.doTurn(weapon, this.props.batch._id)
-  // }
 
   showColor = (color) => {
     if (color ===  false) {
@@ -76,7 +73,6 @@ class Batch extends PureComponent {
   renderStudent = (student, index) => {
     let lastEvaluation = student.evaluations[student.evaluations.length-1]
     let studentColor = 'red'
-    //let studentId = student._id.toString()
 
     if (lastEvaluation) {
       studentColor = lastEvaluation.color
@@ -86,7 +82,7 @@ class Batch extends PureComponent {
       <div key={index}>
         <Paper className="buttonStyle" onClick={this.goToStudent(student._id)}>
             <div className="studentPicture" style={{ backgroundImage: `url(${student.picture})`, backgroundSize: 'cover', width: '100%', height: 200 }}></div>
-            <p className="studentName">Name: { student.name }</p>
+            <p className="studentName">Name: { `${student.firstName} ${student.lastName}` }</p>
             <p className="studentColor">Currently: <span className="colors" id={ this.showColor(studentColor) }></span></p>
         </Paper>
         <button onClick={() => this.removeStudent(this.props.batch._id, student._id)}>Remove student</button>
@@ -108,7 +104,7 @@ class Batch extends PureComponent {
           <br/>
           <div style={{ display: 'flex', alignItems: 'center', flexFlow: 'row wrap' }}>
           {batch.students.sort((a, b) => {
-            return a.name - b.name
+            return a.firstName - b.firstName
           }).map(this.renderStudent)}
           </div>
         </div>
@@ -131,5 +127,4 @@ export default connect(mapStateToProps, {
   fetchStudents,
   removeOneStudent,
   push,
-  //doTurn
 })(Batch)

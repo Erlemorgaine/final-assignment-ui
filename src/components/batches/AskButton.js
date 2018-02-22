@@ -22,14 +22,11 @@ class AskButton extends PureComponent {
 
   render() {
     const { batch } = this.props
-    let pickedStudent = ''
+    let pickedStudent = {firstName: '', lastName: '',}
 
     if (batch.askedStudents.length > 0) {
       pickedStudent = batch.askedStudents[batch.askedStudents.length-1]
     }
-
-    //console.log(batch.askedStudents.length)
-    //console.log(pickedStudent)
 
     if (!this.props.signedIn) return null
 
@@ -41,8 +38,8 @@ class AskButton extends PureComponent {
           onClick={() => this.props.askStudent(batch._id)} />
         <div>
           <br/>
-          <img src={ pickedStudent.picture } style={{ width: 200, height: 200, backgroundSize: 'cover' }}/>
-          <div>{ pickedStudent.name }</div>
+          <img src={ pickedStudent.picture } style={{ width: 200, height: 200, backgroundSize: 'cover' }} alt={ pickedStudent.firstName }/>
+          <div>{ `${pickedStudent.firstName} ${pickedStudent.lastName}` }</div>
         </div>
         <br/>
         <br/>

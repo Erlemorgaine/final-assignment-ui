@@ -4,25 +4,34 @@ import { connect } from 'react-redux'
 import { fetchOneBatch, fetchStudents } from '../actions/batches/fetch'
 import { connect as subscribeToWebsocket } from '../actions/websocket'
 import EvaluationForm from '../components/students/EvaluationForm'
+import EditStudentForm from '../components/students/EditStudentForm'
+
+const evaluationShape = PropTypes.shape({
+  _id: PropTypes.string.isRequired,
+  date: PropTypes.string.isRequired,
+  color: PropTypes.string.isRequired,
+  remarks: PropTypes.string,
+})
 
 const studentShape = PropTypes.shape({
-  //userId: PropTypes.string.isRequired,
-  symbol: PropTypes.string,
-  name: PropTypes.string
+  _id: PropTypes.string.isRequired,
+  firstName: PropTypes.string.isRequired,
+  lastName: PropTypes.string.isRequired,
+  picture: PropTypes.string.isRequired,
+  evaluations: PropTypes.arrayOf(evaluationShape).isRequired
 })
 
 class Student extends PureComponent {
   static propTypes = {
     fetchOneBatch: PropTypes.func.isRequired,
-    fetchStudents: PropTypes.func.isRequired,
+    //fetchStudents: PropTypes.func.isRequired,
     subscribeToWebsocket: PropTypes.func.isRequired,
     batch: PropTypes.shape({
       _id: PropTypes.string.isRequired,
-      //userId: PropTypes.string.isRequired,
       students: PropTypes.arrayOf(studentShape).isRequired,
-    }),
-    currentStudent: studentShape,
-    //mixins: [IntlMixin]
+      startDate: PropTypes.string.isRequired,
+      endDate: PropTypes.string.isRequired,
+    })
   }
 
   componentWillMount() {
@@ -47,14 +56,19 @@ class Student extends PureComponent {
     let day = date.getDate()
     let month = date.getMonth()
     let year = date.getFullYear()
+    let renderDate = `${day}-${month}-${year}`
+
+    if (renderDate === '1-0-1970') {
+      renderDate = 'Not yet evaluated'
+    }
 
     return(
       <span
-        style={{ padding: 10, width: 80 }}
+        style={{ padding: 10, width: 80, color: '#ffffff' }}
         key={index}
         className={evaluation.color}
         onClick={console.log('click')}>
-        { day }-{ month }-{ year }
+        { renderDate }
       </span>
     )
   }
@@ -68,7 +82,8 @@ class Student extends PureComponent {
 
     return (
       <div>
-        <h2>{ student.name }</h2>
+        <h2>{ `${student.firstName} ${student.lastName}` }</h2>
+        <EditStudentForm student={student} batchId={ batch._id }/>
         <div>
           <p>Current evaluations:</p>
           <div style={{ display: 'flex'}}>
