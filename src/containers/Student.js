@@ -22,6 +22,7 @@ class Student extends PureComponent {
       students: PropTypes.arrayOf(studentShape).isRequired,
     }),
     currentStudent: studentShape,
+    //mixins: [IntlMixin]
   }
 
   componentWillMount() {
@@ -42,12 +43,18 @@ class Student extends PureComponent {
   }
 
   renderEvaluations(evaluation, index) {
+    let date = new Date(evaluation.date)
+    let day = date.getDate()
+    let month = date.getMonth()
+    let year = date.getFullYear()
+
     return(
       <span
+        style={{ padding: 10, width: 80 }}
         key={index}
         className={evaluation.color}
         onClick={console.log('click')}>
-          {evaluation.date}
+        { day }-{ month }-{ year }
       </span>
     )
   }
@@ -64,8 +71,11 @@ class Student extends PureComponent {
         <h2>{ student.name }</h2>
         <div>
           <p>Current evaluations:</p>
-          { student.evaluations.map(this.renderEvaluations) }
+          <div style={{ display: 'flex'}}>
+            { student.evaluations.map(this.renderEvaluations) }
+          </div>
         </div>
+        <br/>
         <EvaluationForm student={student} batch={ batch }/>
       </div>
     )

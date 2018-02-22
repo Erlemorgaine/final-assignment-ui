@@ -13,8 +13,8 @@
 .buttonStyle {
   padding: 10px;
   margin: 12px;
-  max-width: 200px;
-  height: 200px;
+  width: 200px;
+  height: 320px;
   flex: 1;
   text-align: 'right';
   cursor: 'pointer';
