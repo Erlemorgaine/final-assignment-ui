@@ -3,26 +3,48 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { fetchOneBatch, fetchStudents } from '../actions/batches/fetch'
 import { connect as subscribeToWebsocket } from '../actions/websocket'
+import { push } from 'react-router-redux'
+import Evaluation from './Evaluation'
 import EvaluationForm from '../components/students/EvaluationForm'
+import EditStudentForm from '../components/students/EditStudentForm'
+
+const evaluationShape = PropTypes.shape({
+  _id: PropTypes.string.isRequired,
+  date: PropTypes.string,
+  color: PropTypes.string.isRequired,
+  remarks: PropTypes.string,
+  userId: PropTypes.string,
+})
 
 const studentShape = PropTypes.shape({
-  //userId: PropTypes.string.isRequired,
-  symbol: PropTypes.string,
-  name: PropTypes.string
+  _id: PropTypes.string.isRequired,
+  firstName: PropTypes.string.isRequired,
+  lastName: PropTypes.string.isRequired,
+  picture: PropTypes.string.isRequired,
+  evaluations: PropTypes.arrayOf(evaluationShape).isRequired
 })
 
 class Student extends PureComponent {
   static propTypes = {
     fetchOneBatch: PropTypes.func.isRequired,
-    fetchStudents: PropTypes.func.isRequired,
+    //fetchStudents: PropTypes.func.isRequired,
     subscribeToWebsocket: PropTypes.func.isRequired,
     batch: PropTypes.shape({
       _id: PropTypes.string.isRequired,
-      //userId: PropTypes.string.isRequired,
       students: PropTypes.arrayOf(studentShape).isRequired,
-    }),
-    currentStudent: studentShape,
-    //mixins: [IntlMixin]
+      startDate: PropTypes.string.isRequired,
+      endDate: PropTypes.string.isRequired,
+    })
+  }
+
+  constructor() {
+    super();
+
+    this.state = {
+      clicked: ''
+    };
+
+    this.handleClick = this.handleClick.bind(this);
   }
 
   componentWillMount() {
@@ -42,20 +64,54 @@ class Student extends PureComponent {
     }
   }
 
-  renderEvaluations(evaluation, index) {
+  pickColor = (color) => {
+    let colorEvaluation = color
+    return colorEvaluation
+  }
+
+  handleClick = (id) => {
+    this.setState({
+      clicked: id
+    });
+  }
+
+  editOwnEvaluations = (evaluation) => {
+    // if (evaluation.userId !== this.props.currentUser._id) {
+    //   return alert('You cannot edit this evaluation')
+    // }
+    ///this.props.push(`/${this.props.batch._id}/showEvaluation/${evaluation._id}`)
+  }
+
+  renderEvaluations = (evaluation, index) => {
+    const student = this.props.batch.students.filter((s) => s._id === this.props.match.params.studentId)[0]
+
     let date = new Date(evaluation.date)
     let day = date.getDate()
     let month = date.getMonth()
     let year = date.getFullYear()
+    let renderDate = `${day}-${month}-${year}`
+
+    if (renderDate === '1-0-1970') {
+      renderDate = 'Not yet evaluated'
+    }
 
     return(
-      <span
-        style={{ padding: 10, width: 80 }}
-        key={index}
-        className={evaluation.color}
-        onClick={console.log('click')}>
-        { day }-{ month }-{ year }
-      </span>
+      <div key={index}>
+        <button
+          style={{ padding: 10, width: 80, color: '#ffffff' }}
+          className={evaluation.color}
+          onClick={() => this.handleClick(evaluation._id)}>
+            {renderDate}
+        </button>
+        <br/><br/>
+        <div>
+          { this.state.clicked === evaluation._id ? <Evaluation
+            evaluation={evaluation}
+            userId={this.props.currentUser._id}
+            batchId={this.props.batch._id}
+            studentId={student._id}/> : null }
+        </div>
+      </div>
     )
   }
 
@@ -68,7 +124,8 @@ class Student extends PureComponent {
 
     return (
       <div>
-        <h2>{ student.name }</h2>
+        <h2>{ `${student.firstName} ${student.lastName}` }</h2>
+        <EditStudentForm student={student} batchId={ batch._id }/>
         <div>
           <p>Current evaluations:</p>
           <div style={{ display: 'flex'}}>
@@ -86,6 +143,7 @@ const mapStateToProps = ({ currentUser, batches }, { match }) => {
   const batch = batches.filter((b) => (b._id === match.params.batchId))[0]
   return {
     batch,
+    currentUser,
   }
 }
 
@@ -93,4 +151,5 @@ export default connect(mapStateToProps, {
   subscribeToWebsocket,
   fetchOneBatch,
   fetchStudents,
+  push
 })(Student)

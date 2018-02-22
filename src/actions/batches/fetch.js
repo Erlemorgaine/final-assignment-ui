@@ -93,6 +93,7 @@ export const fetchOneBatch = (batchId) => {
 export const fetchOneStudent = (batchId, studentId) => {
   return dispatch => {
     dispatch({ type: APP_LOADING })
+    console.log("get one student")
 
     api.get(`/batches/${batchId}/students/${studentId}`)
       .then((result) => {
