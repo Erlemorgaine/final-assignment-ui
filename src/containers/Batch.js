@@ -3,9 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import { fetchOneBatch, fetchStudents } from '../actions/batches/fetch'
-//import doTurn from '../actions/batches/doTurn'
 import { connect as subscribeToWebsocket } from '../actions/websocket'
-//import TurnButton from '../components/batches/TurnButton'
 import Paper from 'material-ui/Paper'
 import StackedBar from '../components/batches/StackedBar'
 import AskButton from '../components/batches/AskButton'
@@ -42,7 +40,7 @@ class Batch extends PureComponent {
   }
 
   componentWillMount() {
-    const { batch, fetchOneBatch, subscribeToWebsocket } = this.props
+    const { batch, fetchOneBatch, fetchStudents, subscribeToWebsocket } = this.props
     const { batchId } = this.props.match.params
 
     if (!batch) { fetchOneBatch(batchId) }
@@ -53,11 +51,15 @@ class Batch extends PureComponent {
     const { batch } = nextProps
 
     if (batch) {
-      //this.props.fetchStudents(batch)
+      this.props.fetchStudents(batch)
     }
   }
 
   goToStudent = studentId => event => this.props.push(`/${this.props.batch._id}/showStudent/${studentId}`)
+
+  backToBatches = () => event => {
+    this.props.push(`/`)
+  }
 
   showColor = (color) => {
     if (color ===  false) {
@@ -95,6 +97,8 @@ class Batch extends PureComponent {
     const { batch } = this.props
     if (!batch) return null
 
+    console.log(batch.students)
+
     return (
       <div>
         <div style={{ display: 'flex', flexFlow: 'column wrap', alignItems: 'center' }} className="Batch">
@@ -103,12 +107,12 @@ class Batch extends PureComponent {
           <AskButton batch={ batch } />
           <br/>
           <div style={{ display: 'flex', alignItems: 'center', flexFlow: 'row wrap' }}>
-          {batch.students.sort((a, b) => {
-            return a.firstName - b.firstName
-          }).map(this.renderStudent)}
+          {batch.students.map(this.renderStudent)}
           </div>
         </div>
         <AddStudentForm batchId={ batch._id }/>
+        <br/>
+        <button onClick={this.backToBatches()}>Back to the batches</button>
       </div>
     )
   }

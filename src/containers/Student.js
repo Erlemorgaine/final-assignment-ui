@@ -75,11 +75,8 @@ class Student extends PureComponent {
     });
   }
 
-  editOwnEvaluations = (evaluation) => {
-    // if (evaluation.userId !== this.props.currentUser._id) {
-    //   return alert('You cannot edit this evaluation')
-    // }
-    ///this.props.push(`/${this.props.batch._id}/showEvaluation/${evaluation._id}`)
+  backToBatch = () => event => {
+    this.props.push(`/showBatch/${this.props.batch._id}/`)
   }
 
   renderEvaluations = (evaluation, index) => {
@@ -134,6 +131,7 @@ class Student extends PureComponent {
         </div>
         <br/>
         <EvaluationForm student={student} batch={ batch }/>
+        <button onClick={this.backToBatch()}>Back to the batch!</button>
       </div>
     )
   }

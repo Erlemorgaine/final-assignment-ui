@@ -11,7 +11,7 @@ const api = new API()
 export default (batchId) => {
   return (dispatch) => {
     dispatch({ type: APP_LOADING })
-    console.log(batchId)
+
     api.patch(`/batches/${batchId}`)
       .then(() => {
         dispatch({ type: APP_DONE_LOADING })

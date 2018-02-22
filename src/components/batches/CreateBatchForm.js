@@ -10,14 +10,26 @@ class CreateBatchForm extends PureComponent {
   static propTypes = {
     signedIn: PropTypes.bool,
   }
-  
+
   saveBatch = () => {
+    let batchNr = 0
+
+    if (this.refs.batchNr.value <= this.props.batchNr) {
+      batchNr = this.props.batchNr + 1
+    } else {
+      batchNr = this.refs.batchNr.value
+    }
+
+    if (!this.refs.startDate.value || !this.refs.endDate.value) {
+      return alert('You must provide a start AND end date!')
+    }
+
     let newBatch = {
-      batchNr: this.props.batchNr + 1,
+      batchNr: batchNr,
       startDate: this.refs.startDate.value,
       endDate: this.refs.endDate.value,
     }
-    
+
     this.props.createBatch(newBatch)
   }
 
@@ -26,16 +38,26 @@ class CreateBatchForm extends PureComponent {
 
     return (
       <div className="CreateBatchForm">
-        <input 
+        <span>Start date:</span>
+        <input
           type="date"
           ref="startDate"/>
-        <input 
+        <span>End date:</span>
+        <input
           type="date"
           ref="endDate"/>
-        <RaisedButton
-          label="Create New Batch"
-          primary={true}
-          onClick={this.saveBatch} />
+        <span>Batch nr (automatically generated if you do not pick!):</span>
+        <input
+          type="number"
+          min={this.props.batchNr + 1}
+          ref="batchNr"
+          placeholder="If you don't choose a number value, the number will automatically be generated"/>
+        <div>
+          <RaisedButton
+            label="Create New Batch"
+            primary={true}
+            onClick={this.saveBatch} />
+        </div>
       </div>
     )
   }

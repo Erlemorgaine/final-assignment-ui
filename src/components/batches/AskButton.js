@@ -10,7 +10,11 @@ class AskButton extends PureComponent {
   }
 
   calculateAskedPercentage(color) {
-    const askedStudents = this.props.batch.askedStudents.filter((s) => {
+    const currentAskedStudents = this.props.batch.askedStudents
+    if (currentAskedStudents.length < 2) {
+      return
+    }
+    const askedStudents = currentAskedStudents.filter((s) => {
       return s.evaluations[s.evaluations.length-1].color === color
     })
 
@@ -22,9 +26,9 @@ class AskButton extends PureComponent {
 
   render() {
     const { batch } = this.props
-    let pickedStudent = {firstName: '', lastName: '',}
+    let pickedStudent = {firstName: '', lastName: '', picture: ''}
 
-    if (batch.askedStudents.length > 0) {
+    if (batch.askedStudents.length > 1) {
       pickedStudent = batch.askedStudents[batch.askedStudents.length-1]
     }
 
