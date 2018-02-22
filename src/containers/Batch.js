@@ -40,7 +40,7 @@ class Batch extends PureComponent {
   }
 
   componentWillMount() {
-    const { batch, fetchOneBatch, fetchStudents, subscribeToWebsocket } = this.props
+    const { batch, fetchOneBatch, subscribeToWebsocket } = this.props
     const { batchId } = this.props.match.params
 
     if (!batch) { fetchOneBatch(batchId) }
@@ -50,7 +50,7 @@ class Batch extends PureComponent {
   componentWillReceiveProps(nextProps) {
     const { batch } = nextProps
 
-    if (batch) {
+    if (batch !== this.props.batch) {
       this.props.fetchStudents(batch)
     }
   }
@@ -112,7 +112,7 @@ class Batch extends PureComponent {
         </div>
         <AddStudentForm batchId={ batch._id }/>
         <br/>
-        <button onClick={this.backToBatches()}>Back to the batches</button>
+        <button onClick={this.backToBatches()}>Back to batches</button>
       </div>
     )
   }

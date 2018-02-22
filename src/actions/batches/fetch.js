@@ -7,7 +7,7 @@ import {
   LOAD_ERROR,
   LOAD_SUCCESS
 } from '../loading'
-import { BATCH_STUDENTS_UPDATED } from './subscribe'
+import { BATCH_STUDENTS_UPDATED, BATCH_STUDENT_UPDATED } from './subscribe'
 
 export const FETCHED_BATCHES = 'FETCHED_BATCHES'
 export const FETCHED_ONE_BATCH = 'FETCHED_ONE_BATCH'
@@ -100,7 +100,7 @@ export const fetchOneStudent = (batchId, studentId) => {
         dispatch({ type: LOAD_SUCCESS })
 
         dispatch({
-          type: FETCHED_ONE_STUDENT,
+          type: BATCH_STUDENT_UPDATED,
           payload: result.body
         })
       })

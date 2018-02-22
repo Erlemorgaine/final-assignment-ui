@@ -27,7 +27,7 @@ const studentShape = PropTypes.shape({
 class Student extends PureComponent {
   static propTypes = {
     fetchOneBatch: PropTypes.func.isRequired,
-    //fetchStudents: PropTypes.func.isRequired,
+    fetchStudents: PropTypes.func.isRequired,
     subscribeToWebsocket: PropTypes.func.isRequired,
     batch: PropTypes.shape({
       _id: PropTypes.string.isRequired,
@@ -50,7 +50,6 @@ class Student extends PureComponent {
   componentWillMount() {
     const { batch, fetchOneBatch, subscribeToWebsocket } = this.props
     const batchId = this.props.match.params.batchId
-    //const studentId = this.props.match.params.studentId
 
     if (!batch) { fetchOneBatch(batchId) }
     subscribeToWebsocket()

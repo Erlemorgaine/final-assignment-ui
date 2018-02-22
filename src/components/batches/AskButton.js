@@ -11,6 +11,7 @@ class AskButton extends PureComponent {
 
   calculateAskedPercentage(color) {
     const currentAskedStudents = this.props.batch.askedStudents
+
     if (currentAskedStudents.length < 2) {
       return
     }
