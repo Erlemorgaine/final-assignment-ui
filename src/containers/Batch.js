@@ -13,10 +13,18 @@ import AddStudentForm from '../components/students/AddStudentForm'
 import removeOneStudent from '../actions/students/remove'
 import './Batch.css'
 
+const evaluationShape = PropTypes.shape({
+  _id: PropTypes.string.isRequired,
+  date: PropTypes.string.isRequired,
+  color: PropTypes.string.isRequired,
+  remarks: PropTypes.string,
+})
+
 const studentShape = PropTypes.shape({
-  //userId: PropTypes.string.isRequired,
-  symbol: PropTypes.string,
-  name: PropTypes.string
+  _id: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  picture: PropTypes.string.isRequired,
+  evaluations: PropTypes.arrayOf(evaluationShape).isRequired
 })
 
 class Batch extends PureComponent {
@@ -27,10 +35,9 @@ class Batch extends PureComponent {
     batch: PropTypes.shape({
       _id: PropTypes.string.isRequired,
       students: PropTypes.arrayOf(studentShape).isRequired,
-    }),
-    currentPlayer: studentShape,
-    isPlayer: PropTypes.bool,
-    isJoinable: PropTypes.bool,
+      startDate: PropTypes.string.isRequired,
+      endDate: PropTypes.string.isRequired,
+    })
   }
 
   componentWillMount() {
