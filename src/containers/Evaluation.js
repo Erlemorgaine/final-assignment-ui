@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react'
 // import { connect } from 'react-redux'
 // import { connect as subscribeToWebsocket } from '../actions/websocket'
 import EditEvaluationForm from '../components/evaluations/EditEvaluationForm'
-//import updateStudent from '../../actions/students/update'
 
 class Evaluation extends PureComponent {
   constructor() {

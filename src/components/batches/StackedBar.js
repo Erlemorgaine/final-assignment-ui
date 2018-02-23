@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react'
-//import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { connect as subscribeToWebsocket } from '../../actions/websocket'
 import './StackedBar.css'
@@ -8,14 +7,20 @@ class StackedBar extends PureComponent {
 
   calculateColorPercentage(color) {
     let colorGroup = this.props.students.filter((s) => {
-      return s.evaluations[s.evaluations.length-1].color === color
+      let lastEvaluation = s.evaluations[s.evaluations.length-1]
+      let studentColor = 'red'
+
+      if (lastEvaluation) {
+        studentColor = lastEvaluation.color
+      }
+      return studentColor === color
     })
 
     let colorPercentage = (colorGroup.length / this.props.students.length)*100
     if (!colorPercentage) {
       return 0
     }
-    return Math.round(colorPercentage)
+    return Math.floor(colorPercentage*100) / 100
   }
 
   render() {

@@ -4,8 +4,8 @@ import './ColorButton.css'
 
 class ColorButton extends PureComponent {
   static propTypes = {
-    //onClick: PropTypes.func.isRequired,
-    color: PropTypes.string.isRequired
+    onClick: PropTypes.func,
+    color: PropTypes.string
   }
 
   id() {

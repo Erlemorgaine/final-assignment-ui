@@ -7,6 +7,8 @@ import updateStudent from '../../actions/students/update'
 class EditStudentForm extends PureComponent {
   static propTypes = {
     signedIn: PropTypes.bool,
+    student: PropTypes.object.isRequired,
+    batchId: PropTypes.string.isRequired
   }
 
   saveStudent = () => {

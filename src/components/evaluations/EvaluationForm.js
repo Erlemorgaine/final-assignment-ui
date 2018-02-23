@@ -1,16 +1,30 @@
 import React, { PureComponent } from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import ColorButton from './ColorButton'
 import createEvaluation from '../../actions/evaluations/create'
 
-let colorEvaluation = ""
-
 class EvaluationForm extends PureComponent {
+  static propTypes = {
+    signedIn: PropTypes.bool,
+  }
+
+  constructor() {
+    super()
+
+    this.state = {
+      colorEvaluation: ""
+    }
+
+    this.pickColor = this.pickColor.bind(this)
+  }
 
   pickColor = (color) => {
-    colorEvaluation = color
-    return colorEvaluation
+    console.log('picked')
+    this.setState({
+      colorEvaluation: color
+    })
   }
 
   saveStudent = (date, remarks, color, student, batch, saveData) => {
@@ -42,7 +56,7 @@ class EvaluationForm extends PureComponent {
 
   goToNextStudent = (studentId, pushIt) => event => {
     event.preventDefault()
-    this.saveStudent(this.refs.date.value, this.refs.remarks.value, colorEvaluation, this.props.student, this.props.batch, this.props.createEvaluation)
+    this.saveStudent(this.refs.date.value, this.refs.remarks.value, this.state.colorEvaluation, this.props.student, this.props.batch, this.props.createEvaluation)
       .then(function(batchId) {
         pushIt(`/${batchId}/showStudent/${studentId}`)
       })
@@ -50,7 +64,7 @@ class EvaluationForm extends PureComponent {
 
   goToBatch = (pushIt) => event => {
     event.preventDefault()
-    this.saveStudent(this.refs.date.value, this.refs.remarks.value, colorEvaluation, this.props.student, this.props.batch, this.props.createEvaluation)
+    this.saveStudent(this.refs.date.value, this.refs.remarks.value, this.state.colorEvaluation, this.props.student, this.props.batch, this.props.createEvaluation)
       .then(function(batchId) {
         pushIt(`/showBatch/${batchId}`)
       })
@@ -104,4 +118,8 @@ class EvaluationForm extends PureComponent {
   }
 }
 
-export default connect(null, { createEvaluation, push })(EvaluationForm)
+const mapStateToProps = ({ currentUser }) => ({
+  signedIn: !!currentUser && !!currentUser._id,
+})
+
+export default connect(mapStateToProps, { createEvaluation, push })(EvaluationForm)

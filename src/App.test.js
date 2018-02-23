@@ -1,8 +1,15 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './App';
+import React from 'react'
+import { shallow } from 'enzyme'
+import App from './App'
+import Routes from './routes'
+import Navigation from './components/UI/Navigation'
 
-it('renders without crashing', () => {
-  const div = document.createElement('div');
-  ReactDOM.render(<App />, div);
-});
+describe('<App />', () => {
+  const app = shallow(<App />)
+  const routes = <Routes />
+  const nav = <Navigation />
+
+  it('contains Routes', () => {
+    expect(app).toContainReact(routes)
+  })
+})
