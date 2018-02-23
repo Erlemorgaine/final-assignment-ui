@@ -10,10 +10,10 @@ import EditStudentForm from '../components/students/EditStudentForm'
 
 const evaluationShape = PropTypes.shape({
   _id: PropTypes.string.isRequired,
-  date: PropTypes.string,
+  date: PropTypes.string.isRequired,
   color: PropTypes.string.isRequired,
   remarks: PropTypes.string,
-  userId: PropTypes.string,
+  userId: PropTypes.string.isRequired,
 })
 
 const studentShape = PropTypes.shape({
