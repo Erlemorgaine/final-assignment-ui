@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
-import { fetchOneBatch, fetchStudents } from '../actions/batches/fetch'
+import { fetchOneBatch} from '../actions/batches/fetch'
 import { connect as subscribeToWebsocket } from '../actions/websocket'
 import Paper from 'material-ui/Paper'
 import StackedBar from '../components/batches/StackedBar'
@@ -29,7 +29,6 @@ const studentShape = PropTypes.shape({
 class Batch extends PureComponent {
   static propTypes = {
     fetchOneBatch: PropTypes.func.isRequired,
-    //fetchStudents: PropTypes.func.isRequired,
     subscribeToWebsocket: PropTypes.func.isRequired,
     batch: PropTypes.shape({
       _id: PropTypes.string.isRequired,
@@ -45,14 +44,6 @@ class Batch extends PureComponent {
 
     if (!batch) { fetchOneBatch(batchId) }
     subscribeToWebsocket()
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const { batch } = nextProps
-
-    if (batch !== this.props.batch) {
-      this.props.fetchStudents(batch)
-    }
   }
 
   goToStudent = studentId => event => this.props.push(`/${this.props.batch._id}/showStudent/${studentId}`)
@@ -97,8 +88,6 @@ class Batch extends PureComponent {
     const { batch } = this.props
     if (!batch) return null
 
-    console.log(batch.students)
-
     return (
       <div>
         <div style={{ display: 'flex', flexFlow: 'column wrap', alignItems: 'center' }} className="Batch">
@@ -129,7 +118,6 @@ const mapStateToProps = ({ currentUser, batches }, { match }) => {
 export default connect(mapStateToProps, {
   subscribeToWebsocket,
   fetchOneBatch,
-  fetchStudents,
   removeOneStudent,
   push,
 })(Batch)

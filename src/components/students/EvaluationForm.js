@@ -16,7 +16,7 @@ class EvaluationForm extends PureComponent {
   saveStudent = (date, remarks, color, student, batch, saveData) => {
     return new Promise(function(resolve, reject) {
       if (!date) {
-        return alert('You need to provide a date')
+        date = Date.now()
       }
       if (!color) {
         return alert('You need to provide a color')

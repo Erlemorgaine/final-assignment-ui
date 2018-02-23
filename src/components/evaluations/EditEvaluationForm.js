@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { connect as subscribeToWebsocket } from '../../actions/websocket'
 import updateEvaluation from '../../actions/evaluations/update'
 
 class EditEvaluationForm extends PureComponent {

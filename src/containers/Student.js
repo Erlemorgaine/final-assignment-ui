@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { fetchOneBatch, fetchStudents } from '../actions/batches/fetch'
+import { fetchOneBatch } from '../actions/batches/fetch'
 import { connect as subscribeToWebsocket } from '../actions/websocket'
 import { push } from 'react-router-redux'
 import Evaluation from './Evaluation'
@@ -10,10 +10,10 @@ import EditStudentForm from '../components/students/EditStudentForm'
 
 const evaluationShape = PropTypes.shape({
   _id: PropTypes.string.isRequired,
-  date: PropTypes.string,
+  date: PropTypes.string.isRequired,
   color: PropTypes.string.isRequired,
   remarks: PropTypes.string,
-  userId: PropTypes.string,
+  userId: PropTypes.string.isRequired,
 })
 
 const studentShape = PropTypes.shape({
@@ -27,7 +27,6 @@ const studentShape = PropTypes.shape({
 class Student extends PureComponent {
   static propTypes = {
     fetchOneBatch: PropTypes.func.isRequired,
-    fetchStudents: PropTypes.func.isRequired,
     subscribeToWebsocket: PropTypes.func.isRequired,
     batch: PropTypes.shape({
       _id: PropTypes.string.isRequired,
@@ -53,14 +52,6 @@ class Student extends PureComponent {
 
     if (!batch) { fetchOneBatch(batchId) }
     subscribeToWebsocket()
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const { batch } = nextProps
-
-    if (batch) {
-      this.props.fetchStudents(batch)
-    }
   }
 
   pickColor = (color) => {
@@ -147,6 +138,5 @@ const mapStateToProps = ({ currentUser, batches }, { match }) => {
 export default connect(mapStateToProps, {
   subscribeToWebsocket,
   fetchOneBatch,
-  fetchStudents,
   push
 })(Student)
