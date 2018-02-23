@@ -5,7 +5,7 @@ import {
   BATCH_UPDATED,
   BATCH_REMOVED,
   BATCH_STUDENTS_UPDATED,
-  BATCH_STUDENT_UPDATED,
+  //BATCH_STUDENT_UPDATED,
 } from '../actions/batches/subscribe'
 
 export default (state = [], { type, payload } = {}) => {
@@ -45,13 +45,13 @@ export default (state = [], { type, payload } = {}) => {
         return batch
       })
 
-      case BATCH_STUDENT_UPDATED :
-        return state.map((batch) => {
-          if (batch._id === payload.batch._id) {
-            return { ...payload.batch, students: payload.students }
-          }
-          return batch
-        })
+      // case BATCH_STUDENT_UPDATED :
+      //   return state.map((batch) => {
+      //     if (batch._id === payload.batch._id) {
+      //       return { ...payload.batch, students: payload.students }
+      //     }
+      //     return batch
+      //   })
 
     case BATCH_REMOVED :
         return state.filter((batch) => (batch._id !== payload._id))
