@@ -44,7 +44,6 @@ class EvaluationForm extends PureComponent {
     event.preventDefault()
     this.saveStudent(this.refs.date.value, this.refs.remarks.value, colorEvaluation, this.props.student, this.props.batch, this.props.createEvaluation)
       .then(function(batchId) {
-        console.log('resolved')
         pushIt(`/${batchId}/showStudent/${studentId}`)
       })
   }
@@ -53,7 +52,6 @@ class EvaluationForm extends PureComponent {
     event.preventDefault()
     this.saveStudent(this.refs.date.value, this.refs.remarks.value, colorEvaluation, this.props.student, this.props.batch, this.props.createEvaluation)
       .then(function(batchId) {
-        console.log('resolved')
         pushIt(`/showBatch/${batchId}`)
       })
   }

@@ -19,7 +19,6 @@ class Evaluation extends PureComponent {
     if (this.props.evaluation.userId !== this.props.userId ) {
       return alert('You are not allowed to edit this!')
     }
-    console.log('clicked')
     this.setState({
       clicked: true
     })

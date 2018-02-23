@@ -26,6 +26,7 @@ const studentShape = PropTypes.shape({
 
 class Student extends PureComponent {
   static propTypes = {
+    signedIn: PropTypes.bool,
     fetchOneBatch: PropTypes.func.isRequired,
     subscribeToWebsocket: PropTypes.func.isRequired,
     batch: PropTypes.shape({
@@ -78,10 +79,6 @@ class Student extends PureComponent {
     let year = date.getFullYear()
     let renderDate = `${day}-${month}-${year}`
 
-    if (renderDate === '1-0-1970') {
-      renderDate = 'Not yet evaluated'
-    }
-
     return(
       <div key={index}>
         <button
@@ -108,7 +105,7 @@ class Student extends PureComponent {
     if (!batch) return null
 
     let student = batch.students.filter((s) => s._id === this.props.match.params.studentId)[0]
-
+    console.log(student)
     return (
       <div>
         <h2>{ `${student.firstName} ${student.lastName}` }</h2>
