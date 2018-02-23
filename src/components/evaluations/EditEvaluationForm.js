@@ -6,6 +6,9 @@ import updateEvaluation from '../../actions/evaluations/update'
 class EditEvaluationForm extends PureComponent {
   static propTypes = {
     signedIn: PropTypes.bool,
+    evaluation: PropTypes.object.isRequired,
+    studentId: PropTypes.string.isRequired,
+    batchId: PropTypes.string.isRequired,
   }
 
   saveEvaluation = () => event => {

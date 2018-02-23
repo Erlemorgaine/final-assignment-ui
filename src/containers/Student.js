@@ -5,7 +5,7 @@ import { fetchOneBatch } from '../actions/batches/fetch'
 import { connect as subscribeToWebsocket } from '../actions/websocket'
 import { push } from 'react-router-redux'
 import Evaluation from './Evaluation'
-import EvaluationForm from '../components/students/EvaluationForm'
+import EvaluationForm from '../components/evaluations/EvaluationForm'
 import EditStudentForm from '../components/students/EditStudentForm'
 
 const evaluationShape = PropTypes.shape({
@@ -105,10 +105,11 @@ class Student extends PureComponent {
     if (!batch) return null
 
     let student = batch.students.filter((s) => s._id === this.props.match.params.studentId)[0]
-    console.log(student)
+
     return (
       <div>
         <h2>{ `${student.firstName} ${student.lastName}` }</h2>
+        <img src={ student.picture } style={{ width: 200, height: 250, backgroundSize: 'cover' }} alt={ student.firstName }/>
         <EditStudentForm student={student} batchId={ batch._id }/>
         <div>
           <p>Current evaluations:</p>
